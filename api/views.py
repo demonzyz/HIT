@@ -123,13 +123,13 @@ def run_task(request):
                    if case.exists() and case.first().status == 0:
                        case_list.append(str(case.first().id))
                        case_list_str = ','.join(case_list)
-                if len(case_list)>0:
+                if len(case_list) > 0:
                     time_temp = time.time()
                     status = os.system("python ./api/run.py %s %f %s" % (task_id, time_temp, case_list_str))
-                    if status==0:
+                    if status == 0:
                         # 轮询任务历史表中知否存在报告信息
                         flag = 0
-                        while(flag<10):
+                        while(flag < 10):
                             his = History.objects.filter(time=time_temp)
                             if his.exists():
                                 result = {'error_code': 0, "report_path":his.first().report}
