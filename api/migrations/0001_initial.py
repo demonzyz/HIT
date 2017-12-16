@@ -20,6 +20,15 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='History',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('time', models.FloatField(unique=True)),
+                ('status', models.IntegerField(null=True, choices=[(0, b'running'), (1, b'finish')])),
+                ('report', models.CharField(max_length=100, null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Step',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -38,7 +47,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=30)),
                 ('desc', models.CharField(max_length=50, null=True)),
-                ('report', models.CharField(max_length=100, null=True)),
                 ('case', models.ManyToManyField(to='api.Case')),
             ],
         ),
@@ -58,5 +66,10 @@ class Migration(migrations.Migration):
             model_name='step',
             name='template',
             field=models.ForeignKey(to='api.Template'),
+        ),
+        migrations.AddField(
+            model_name='history',
+            name='task',
+            field=models.ForeignKey(to='api.Task'),
         ),
     ]

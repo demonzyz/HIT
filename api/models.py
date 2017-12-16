@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class Template(models.Model):
     name = models.CharField(max_length=30, unique=True)
     desc = models.CharField(max_length=50, null=True)
@@ -10,16 +9,13 @@ class Template(models.Model):
     method = models.SmallIntegerField(choices=((0, 'GET'), (1, 'POST')), null=False)
     headers = models.CharField(max_length=500, null=True)
     data = models.CharField(max_length=500, null=True)
-
     def __unicode__(self):
         return self.name
-
 
 class Case(models.Model):
     name = models.CharField(max_length=30, unique=True)
     desc = models.CharField(max_length=50, null=True)
     status = models.SmallIntegerField(choices=((0, 'run'), (1, 'skip')))
-
     def __unicode__(self):
         return self.name
 
@@ -32,16 +28,20 @@ class Step(models.Model):
     check = models.CharField(max_length=500, null=True)
     headers = models.CharField(max_length=500, null=True)
     data = models.CharField(max_length=500, null=True)
-
     def __unicode__(self):
         return self.name
-
 
 class Task(models.Model):
     name = models.CharField(max_length=30, unique=True)
     desc = models.CharField(max_length=50, null=True)
     case = models.ManyToManyField(Case)
-    report = models.CharField(max_length=100, null=True)
-
     def __unicode__(self):
         return self.name
+
+class History(models.Model):
+    time = models.FloatField(null=False, unique=True)
+    status =  models.IntegerField(choices=((0, 'running'), (1, 'finish')), null=True)
+    report = models.CharField(max_length=100, null=True)
+    task = models.ForeignKey(Task)
+    def __unicode__(self):
+        return self.id
