@@ -4,4 +4,4 @@ from django.http import HttpResponse
 
 
 def home(requset):
-    return HttpResponse('hello')
+    return render(requset, 'home.html')
