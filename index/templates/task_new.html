@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    {% block content %}
+        <form class="form-horizontal" style="margin-left: 20px;margin-top: 30px">
+          <caption>
+            <h3 style="margin-left: 70px">新增任务<a href='/hit/task/' style="margin-left: 20px;font-weight: bold;font-size: 15px" type="button" class="btn btn-warning btn-sm"><i class="fa fa-rocket fa-fw"></i>返回</a></h3>
+          </caption>
+          <div class="form-group" id="input_name">
+            <label for="inputEmail3" class="col-sm-2 control-label">*任务名称</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="name" placeholder="必填项">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">任务描述</label>
+            <div class="col-sm-6">
+                <textarea type="text" class="form-control" id="desc"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">关联用例</label>
+              <div class="checkbox">
+                  <fieldset>
+                  <div class="col-sm-8">
+                      {% for case in cases %}
+                      <div class="col-sm-4">
+                          <label style="float:left;padding:0 5px;">
+                            <input class="cases" type="checkbox" value="{{ case.id }}">
+                            {{ case.name }}
+                          </label>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  </fieldset>
+              </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <a id="save" class="btn btn-primary">提交</a>
+            </div>
+          </div>
+        </form>
+
+        <script>
+            $("#save").on('click', function () {
+                var name = $("#name").val()
+                if(name == ""){
+                    $("#input_name").addClass("has-error")
+                    $("#name").after("<span class='help-block'>必填项不能为空</span>")
+                }else{
+                     $("#input_name").removeClass("has-error")
+                     $("#input_name").addClass("has-success")
+                     $("#input_name").find(".help-block").remove()
+                     $.get('/api/task/exists/?name='+name, function (data) {
+                         if(data.flag == 1 || data.flag == 2){
+                              $("#input_name").addClass("has-error")
+                              $("#name").after("<span class='help-block'>任务名已存在</span>")
+                         }else{
+                             $("#input_name").removeClass("has-error")
+                             $("#input_name").addClass("has-success")
+                             $("#input_name").find(".help-block").remove()
+                         }
+                     })
+                }
+
+
+            })
+
+        </script>
+    {% endblock %}
+</body>
+</html>

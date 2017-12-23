@@ -25,3 +25,7 @@ def task(requset):
 #         task.delete()
 #         tasks = Task.objects.all()
 #     return render(request, 'task.html', {"tasks": tasks})
+
+def task_new(requset):
+    cases = Case.objects.filter(status=0)
+    return render(requset, 'task_new.html', {'cases': cases})
