@@ -150,3 +150,17 @@ def run_task(request):
     else:
         result = {'error_code': 10001}
     return JsonResponse(result)
+
+@api_view(['GET'])
+def delete_task(request):
+    id = request.GET.get("id", None)
+    if id:
+        task = Task.objects.filter(id=id)
+        if task.exists():
+            task.delete()
+            result = {'error_code': 0}
+        else:
+            result = {'error_code': 10009}
+    else:
+        result = {'error_code': 10001}
+    return JsonResponse(result)

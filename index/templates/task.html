@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    {% block content %}
+        <table class="table table-striped table-hover">
+        <caption>
+            <h3>测试任务列表<a style="margin-left: 20px;font-weight: bold;font-size: 15px" type="button" class="btn btn-primary btn-sm"><i class="fa fa-rocket fa-fw"></i>新建任务</a></h3>
+        </caption>
+        {% if tasks %}
+        <thead>
+        <tr>
+            <th style="text-align: center"><h4><strong>名称</strong></h4></th>
+            <th style="text-align: center"><h4><strong>描述</strong></h4></th>
+            <th style="text-align: center"><h4><strong>操作</strong></h4></th>
+            <th style="text-align: center"><h4><strong>历史报告</strong></h4></th>
+        </tr>
+        </thead>
+            <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td style="text-align: center">{{ task.name }}</td>
+                <td style="text-align: center">{{ task.desc }}</td>
+                <td style="text-align: center">
+                    <a type="button" class="btn btn-success btn-sm" style="font-weight: bold"><i class="fa fa-play-circle-o fa-fw"></i>运行</a>
+                    <a type="button" class="btn btn-warning btn-sm" style="font-weight: bold"><i class="fa fa-cog fa-fw"></i>编辑</a>
+                    <a value="{{ task.id }}" type="button" class="delete btn btn-danger btn-sm" style="font-weight: bold" data-toggle="modal" data-target="#confirm_delete" data-name="{{ task.name }}" data-id="{{ task.id }}"><i class="fa fa-trash-o fa-fw"></i>删除</a>
+                </td>
+                <td style="text-align: center">
+                    <a type="button" class="btn btn-primary btn-sm" style="font-weight: bold"><i class="fa fa-tachometer fa-fw"></i>查看</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            </tbody>
+            </table>
+            <div style="text-align: center" class="alert alert-warning" role="alert">测试任务不存在，请点击[新建任务]</div>
+        {% endif %}
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="confirm_delete">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除测试任务</h4>
+              </div>
+              <div class="modal-body">
+                <p>确定删除该任务？</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="is_delete" type="button" class="btn btn-primary">确定</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div>
+
+
+        <script>
+            $("#is_delete").on('click', function () {
+                $.get('/api/task/delete/?id='+$(this).attr("value"),function (data) {
+                    if(data.error_code == 0){
+                        alert('删除成功')
+                    }else {
+                        alert('删除失败')
+                    }
+                    location.href = '/hit/task/'
+                })
+            })
+
+            $('#confirm_delete').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget)
+              var name = button.data('name')
+              var id = button.data('id')
+              var modal = $(this)
+              modal.find('h4').text(name)
+              $("#is_delete").attr("value", id)
+            })
+        </script>
+    {% endblock %}
+</body>
+</html>

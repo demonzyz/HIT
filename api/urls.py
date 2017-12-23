@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'step/add/', views.add_step),
     url(r'task/add/', views.add_task),
     url(r'task/run/', views.run_task),
+    url(r'task/delete/', views.delete_task),
 ]

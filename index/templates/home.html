@@ -2,12 +2,12 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-</head>
 <body>
-
+    {% block css %}
+        h1.fa-ico{color: #1E90FF}
+        .carousel-caption{margin-bootom: 20px}
+        p.fucntion-info{color:#778899}
+    {% endblock %}
     {% block content %}
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
@@ -53,6 +53,66 @@
             <span class="sr-only">Next</span>
           </a>
         </div>
+
+        <div class="row text-center">
+            <div class="box" style="margin-top: 20px">
+                <h4 style="font-weight:bold;" class="text">常用功能</h4>
+            </div>
+
+            <div class="col-md-4">
+                <h1 class="fa-ico">
+                    <i class="fa fa-puzzle-piece fa-fw"></i>
+                </h1>
+                <h4>模板管理</h4>
+                <p class="fucntion-info">录入待测试接口信息，无需编写代码</p>
+                <p class="fucntion-info">请求头、参数一目了然</p>
+                <a type="button" class="btn btn-success btn-sm" style="font-weight: bold">立即使用</a>
+             </div>
+
+            <div class="col-md-4">
+                <h1 class="fa-ico">
+                    <i class="fa fa-cubes fa-fw"></i>
+                </h1>
+                <h4>用例管理</h4>
+                <p class="fucntion-info">用例以Step为单位，一个步骤即为一个请求</p>
+                <p class="fucntion-info">检查点丰富，支持数据库查询</p>
+                <a type="button" class="btn btn-danger btn-sm" style="font-weight: bold">立即使用</a>
+            </div>
+
+            <div class="col-md-4">
+                <h1 class="fa-ico">
+                    <i class="fa fa-dashboard fa-fw"></i>
+                </h1>
+                <h4>任务管理</h4>
+                <p class="fucntion-info">向测试任务中添加用例，灵活方便</p>
+                <p class="fucntion-info">Html报告直观清晰</p>
+                <a type="button" class="btn btn-warning btn-sm" href="/hit/task/" style="font-weight: bold">立即使用</a>
+            </div>
+        </div>
+
+        <footer class="container-fluid foot-wrap" style="margin-top: 20px">
+            <div class="container">
+                <div class="row-fluid"  id="footer" style="font-size:12px; height:40px;bottom:0px;left:0px;">
+                    <legend style="margin-bottom: 20px;"></legend>
+                    <center> 2017www.huicewang.com All Rights Reserved.</center>
+                </div>
+            </div>
+        </footer>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+              $("#home_ico").addClass("active");
+              $(".navbar-brand").removeAttr("style");
+              $(".home-logo").css("margin-left", "15px");
+            });
+        </script>
+
+
+
+
+    {% endblock %}
+
+    {% block sidebar %}
     {% endblock %}
 </body>
 </html>
